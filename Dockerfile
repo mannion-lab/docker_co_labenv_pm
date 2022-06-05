@@ -1,19 +1,21 @@
 # hash:sha256:cc82a6752b67224109d0e02ea6f67c8a6a610550852a697246b4fb72b63bb7b6
 FROM registry.codeocean.com/codeocean/ubuntu:20.04.2
 
-# this describes a docker image that is customised for projects run by
-# Damien Mannion (https://djmannion.net) and colleagues
+# This describes a docker image that is customised for projects run by
+# Damien Mannion (https://djmannion.net) and colleagues.
 #
-# it is mainly based around a python 3.8 workflow and includes packages for
+# It is mainly based around a python 3.8 workflow and includes packages for
 # data analysis (numpy, pymc3, etc.), visualisation (veusz), and image /
 # sound handling (imageio, soundfile, etc.).
-# it uses a base image from codeocean (https://codeocean.com) to facilitate
+# It uses a base image from codeocean (https://codeocean.com) to facilitate
 # workflow execution both locally and on the codeocean site
 #
-# the repository is just the Dockerfile so that it can easily be cloned as a
+# The repository is just the Dockerfile so that it can easily be cloned as a
 # submodule within a codeocean capsule.
 #
-# damien@djmannion.net
+# The built images can be found on docker hub at:
+#     https://hub.docker.com/repository/docker/djmannion/co_labenv
+#
 
 ARG DEBIAN_FRONTEND=noninteractive
 
