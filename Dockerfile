@@ -44,8 +44,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # install python packages
+# the `netcdf4` pin is because of https://github.com/arviz-devs/arviz/issues/2079
 RUN pip install -U --no-cache-dir  \
-    numpy==1.20.3 \
+    numpy==1.22.1 \
+    scipy==1.7.3 \
+    netcdf4==1.5.8 \
     scikit-image \
     scikit-learn \
     python-dateutil \
