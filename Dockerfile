@@ -5,13 +5,16 @@ FROM registry.codeocean.com/codeocean/ubuntu:20.04.2
 # Damien Mannion (https://djmannion.net) and colleagues.
 #
 # It is mainly based around a python 3.8 workflow and includes packages for
-# data analysis (numpy, pymc3, etc.), visualisation (veusz), and image /
+# data analysis (numpy, pymc, etc.), visualisation (veusz), and image /
 # sound handling (imageio, soundfile, etc.).
 # It uses a base image from codeocean (https://codeocean.com) to facilitate
 # workflow execution both locally and on the codeocean site
 #
 # The repository is just the Dockerfile so that it can easily be cloned as a
 # submodule within a codeocean capsule.
+#
+# This is a fork of the main `docker_co_labenv` repository, to allow the usage
+# of PyMC3 v4
 #
 # The built images can be found on docker hub at:
 #     https://hub.docker.com/repository/docker/djmannion/co_labenv
@@ -43,11 +46,14 @@ RUN apt-get update \
     && dpkg --remove --force-depends python3-numpy \
     && rm -rf /var/lib/apt/lists/*
 
+# run python v3 via just `python`
+RUN ln -s /usr/bin/python3 /usr/local/bin/python
+
 # install python packages
 # the `netcdf4` pin is because of https://github.com/arviz-devs/arviz/issues/2079
-RUN pip install -U --no-cache-dir  \
-    numpy==1.22.1 \
-    scipy==1.7.3 \
+RUN pip install --upgrade --no-cache-dir  \
+    numpy==1.22.4 \
+    scipy \
     netcdf4==1.5.8 \
     scikit-image \
     scikit-learn \
@@ -61,7 +67,7 @@ RUN pip install -U --no-cache-dir  \
     statsmodels \
     tabulate \
     user-agents \
-    pymc3 \
+    pymc \
     librosa \
     resampy \
     soundfile \
@@ -70,21 +76,19 @@ RUN pip install -U --no-cache-dir  \
     openpyxl \
     distro \
     watermark \
-    pycountry
-
-# run python v3 via just `python`
-RUN ln -s /usr/bin/python3 /usr/local/bin/python
+    pycountry \
+    setuptools==65.3.0
 
 # QT complains if this doesn't exist
 ENV XDG_RUNTIME_DIR=/tmp/runtime-root/
 RUN mkdir -m 0700 -p ${XDG_RUNTIME_DIR}
 
-# set some theano config flags
+# set some aesara config flags
 RUN echo "[blas] \n\
 ldflags=-L/usr/lib/x86_64-linux-gnu/openblas-openmp -lopenblas -lblas -llapack \n\
 \n\
 [global] \n\
-config.compile.timeout = 5000" > ~/.theanorc
+config.compile.timeout = 5000" > ~/.aesararc
 
 # set python to automatically discover packages in `/code`
 RUN echo "import pathlib \n\
