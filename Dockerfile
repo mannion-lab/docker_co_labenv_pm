@@ -78,6 +78,7 @@ RUN pip install --upgrade --no-cache-dir  \
     watermark \
     pycountry \
     latex2mathml \
+    bottleneck \
     setuptools==65.3.0
 
 # QT complains if this doesn't exist
