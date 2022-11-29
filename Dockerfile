@@ -79,6 +79,8 @@ RUN pip install --upgrade --no-cache-dir  \
     pycountry \
     latex2mathml \
     bottleneck \
+    pycountry \
+    seaborn \
     setuptools==65.3.0
 
 # QT complains if this doesn't exist
