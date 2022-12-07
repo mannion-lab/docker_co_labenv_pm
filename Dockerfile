@@ -81,6 +81,7 @@ RUN pip install --upgrade --no-cache-dir  \
     bottleneck \
     pycountry \
     seaborn \
+    tqdm \
     setuptools==65.3.0
 
 # QT complains if this doesn't exist
