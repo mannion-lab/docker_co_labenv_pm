@@ -82,11 +82,16 @@ RUN pip install --upgrade --no-cache-dir  \
     pycountry \
     seaborn \
     tqdm \
+    igraph \
+    leidenalg \
     setuptools==65.3.0
 
 # QT complains if this doesn't exist
 ENV XDG_RUNTIME_DIR=/tmp/runtime-root/
-RUN mkdir -m 0700 -p ${XDG_RUNTIME_DIR}
+RUN mkdir --mode=777 --parents ${XDG_RUNTIME_DIR}
+
+ENV MPLCONFIGDIR=/tmp/mpl
+RUN mkdir --mode=777 --parents ${MPLCONFIGDIR}
 
 # set some aesara config flags
 RUN echo "[blas] \n\
