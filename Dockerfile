@@ -29,6 +29,8 @@ RUN apt-get update \
         python3 \
         python3-dev \
         python3-pip \
+        intel-mkl \
+        gfortran \
         libopenblas-openmp-dev \
         libgl1-mesa-glx \
         xvfb \
@@ -49,10 +51,23 @@ RUN apt-get update \
 # run python v3 via just `python`
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
+RUN pip install --upgrade --no-cache-dir cython
+
+# build numpy from source, so that it can use the MKL libraries
+WORKDIR /tmp
+RUN wget https://github.com/numpy/numpy/releases/download/v1.23.4/numpy-1.23.4.tar.gz \
+    && tar xf numpy-1.23.4.tar.gz
+
+WORKDIR /tmp/numpy-1.23.4
+RUN python setup.py install \
+    && ln -s /usr/lib/python3.8/site-packages/numpy* /usr/local/lib/python3.8/dist-packages/ \
+    && cd / \
+    && rm -Rf /tmp/numpy*
+
 # install python packages
 # the `netcdf4` pin is because of https://github.com/arviz-devs/arviz/issues/2079
 RUN pip install --upgrade --no-cache-dir  \
-    numpy==1.22.4 \
+    #numpy==1.22.4 \
     scipy \
     netcdf4==1.5.8 \
     scikit-image \
